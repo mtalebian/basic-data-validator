@@ -102,12 +102,24 @@ You can easily use ```myValidator.validate``` in **React-Final-Form** .
 />
 ```
 
+Using ```validateAll``` method enforces all rules to be validated, so you can show all input errors.
+
+
+```jsx
+<Form
+    onSubmit={onSubmit}
+    validate={myValidator.validateAll}
+    ...
+/>
+```
+
 ### Use in code
 
 Also you can use ```myValidator``` in your code:
 
 ```js
 const data = { userName: 'Mahdi', password: null, confirmPassword: '*' };
+const is_valid = myValidator.isValid( data );    // false
 const errors = myValidator.validate( data );
 /*
 output:
@@ -135,8 +147,9 @@ Next section will explains more about ```BasicValidator```
 ```js
 const myValidator = BasicValidator( SCHEMA, CUSTOM_MESSAGES );
 
-console.log( myValidator.vaidate( DATA ) )
-console.log( myValidator.vaidateAll( DATA ) )
+myValidator.isValid( DATA )         // returns boolean (true | false)
+myValidator.vaidate( DATA )         // returns first error for each schema class
+myValidator.vaidateAll( DATA )      // returns all errors
 ```
 
 ### Define schema
@@ -939,10 +952,10 @@ const myValidator = BasicValidator( mySchemaBuilder,  MyValidatorMessages);
 const validator = BasicValidator(b => b.string().strongPassword());
 
 validator.isValid("do,p!#32Z?")   // true
-validator.isValid("123")          // false
-
 validator.validate("do,p!#32Z?")  // null
-validator.validate("do,p!#32Z?")  // ? is not a strong password
+
+validator.isValid("123")          // false
+validator.validate("123")         // ? is not a strong password
 ```
 
 

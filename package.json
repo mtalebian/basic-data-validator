@@ -1,7 +1,7 @@
 {
   "name": "basic-validator",
   "version": "1.0.0",
-  "description": "Basic schema validation JavaScript library",
+  "description": "Basic schema validation JavaScript library (supports Shamsi / Jalaali date)",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,9 @@
   },
   "keywords": [
     "schema",
-    "validation"
+    "validation",
+    "Shamsi",
+    "Jalaali"
   ],
   "author": {
     "name": "Mahdi Talebian"
