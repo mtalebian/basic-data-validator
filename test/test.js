@@ -66,7 +66,7 @@ const myValidator = BasicValidator(builder => builder.object({
     password: builder.string()
         .required()
         .min(3)
-        .min(20),
+        .max(20),
 
     confirmPassword: builder.string()
         .required()
@@ -82,9 +82,11 @@ const myValidator = BasicValidator(builder => builder.object({
     }).required()
 }));
 
-const data = { userName: 'Mahdi', password: null, confirmPassword: '*' };
+const data = { userName: 'Mahdi', password: '*aA12SCSA###sd', confirmPassword: '*aA12SCSA###sd', address: { city: 'aaa', postalCode: '' } };
 console.log("***************");
-console.log(myValidator.validate(data));
+console.log("\r\nmyValidator.isValid(data): ", myValidator.isValid(data));
+console.log("\r\nmyValidator.validate(data): ", myValidator.validate(data));
+console.log("\r\nmyValidator.validateAll(data): ", myValidator.validateAll(data));
 
 
 
