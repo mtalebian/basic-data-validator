@@ -1,6 +1,6 @@
 {
-  "name": "basic-validator",
-  "version": "1.0.0",
+  "name": "basic-data-validator",
+  "version": "1.0.2",
   "description": "Basic schema validation JavaScript library (supports Shamsi / Jalaali date)",
   "type": "module",
   "main": "index.js",
@@ -17,13 +17,13 @@
     "name": "Mahdi Talebian"
   },
   "license": "MIT",
-  "homepage": "https://github.com/mtalebian/basic-validator",
+  "homepage": "https://github.com/mtalebian/basic-data-validator",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mtalebian/basic-validator.git"
+    "url": "git+https://github.com/mtalebian/basic-data-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/mtalebian/basic-validator/issues",
+    "url": "https://github.com/mtalebian/basic-data-validator/issues",
     "email": "talebian73@gmail.com"
   },
   "dependencies": {
