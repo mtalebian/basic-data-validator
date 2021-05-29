@@ -1,6 +1,6 @@
 # Basic-Data-Validator
 
-Basic-Data-Validator is a JavaScript library for value validation.
+Basic-Data-Validator is a JavaScript library for data validation.
 At first it was built to be used in **React-Final-Form**,
 but it is not limited to **_React_** and you can use it in every javascript project.
 
