@@ -6,7 +6,7 @@ but it is not limited to ***React*** and you can use it in every javascript proj
 Basic-Validator contains some general Api to create your own **validation schema**.
 If you want more, you can easily define your ```custom``` rule. 
 
-For Persian users it fully supports Shamsi (Jalaali) date.
+For Persian users it fully supports **Shamsi** (Jalaali) date.
 
 Also you can customize all messages or overwrite your message in every rule.
 
@@ -14,10 +14,11 @@ Also you can customize all messages or overwrite your message in every rule.
 
 ## CONTENT
 
-- [BasicValidator](#basicvalidator)
-- [API](#api)
-- [Custom Messages](#custom-messages)
-- [EXAMPLES](#examples)
+1. [BasicValidator](#basicvalidator)
+2. [Schema Builder](#schema-builder)
+2. [API](#api)
+3. [Custom Messages](#custom-messages)
+4. [EXAMPLES](#examples)
 
 
 ## INSTALL
@@ -45,7 +46,7 @@ Import ```BasicValidator``` class from the *Basic-Validator* package.
 #### - Define schema
 Lets start with an example:
 ```js
-import BasicValidator from 'basic-shamsi'
+import BasicValidator from 'basic-validator'
 
 const myValidator = BasicValidator(builder => builder.object({
     userName: builder.label('First Name').string()
@@ -54,8 +55,7 @@ const myValidator = BasicValidator(builder => builder.object({
 
     password: builder.string()
         .required()
-        .min(3)
-        .min(20),
+        .password(),
 
     confirmPassword: builder.string()
         .required()
@@ -79,7 +79,7 @@ The above schema defines the following constraints:
   * a valid username: may contains any symboles of _ – . \ / @ or digits or letters, having a length of 3 to 20 characters
 * ```password```
   * a required string
-  * between 3 to 20 characters 
+  * requires a password rule: must not contains space and ' symbol, having a length of 3 to 20 characters
 * ```confirmPassword```
   * a required string
   * must be equal to value of password field
@@ -130,7 +130,7 @@ Next section will explains more about ```BasicValidator```
 
 
 ## BasicValidator
-```BasicValidator``` builds a schema using [schema builder](#schema-builder).
+```BasicValidator``` generates a schema using [schema builder](#schema-builder).
 
 ```js
 const myValidator = BasicValidator( SCHEMA, CUSTOM_MESSAGES );
@@ -140,7 +140,7 @@ console.log( myValidator.vaidateAll( DATA ) )
 ```
 
 #### - Define schema
-You can create your own schema using schema builder:
+You can define your own schema using schema builder:
  
 ```js
 const mySchema = builder => builder.object({
@@ -169,10 +169,10 @@ This method match the value and schema. It checks all validation rules and extra
 
 
 ## Schema Builder
-Helps you to create schema. It contains folowing methods:
+Helps you to define validation schema. It contains folowing methods:
 
 * #### ```label( text )```
-  Changes the name of property. Use this method when you are using [validator level](#custom-messages) messages.
+  Labels the name of property. Use this method when you are using [validator level](#custom-messages) messages.
   ```js
   builder => builder.label('User Name');
   ```
@@ -244,7 +244,7 @@ This schema class contains folowing methods:
 This function takes 2 argument: the **value** (current evaluation value) and the **data** (current evaluation object)
   ```js
   var schema = builder => builder.string()
-          .custom((value, data) {value > data.startData}, "CUSTOM ERROR MESSAGE"));
+          .custom((value, data) => value > data.startDate, "CUSTOM ERROR MESSAGE"));
   ```
       Default vaildation error: DefaultMessages.Invalid
 
@@ -267,13 +267,17 @@ This function takes 2 argument: the **value** (current evaluation value) and the
         .equals('Mahdi');
   ```
 
-    Late binding: The ```value``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```value``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
-  var schema = builder => builder.string()
-        .equals(data => data.userName);
+  var schema = builder => builder.object({
+    ...
+    confirmPassword: builder.string()
+        .equals(data => data.password)
+    ...
+  });
   ```
 
-       Default validation error: DefaultMessages.Equals
+      Default validation error: DefaultMessages.Equals
   
 
 
@@ -281,16 +285,20 @@ This function takes 2 argument: the **value** (current evaluation value) and the
   The specified value is not allwed.
   ```js
   var schema = builder => builder.string()
-        .equals('Mahdi');
+        .notEquals('Mahdi');
   ```
 
-    Late binding: The ```value``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```value``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
-  var schema = builder => builder.string()
-        .equals(data => data.userName);
+  var schema = builder => builder.object({
+        ...
+        lastName: builder.string()
+            .notEquals(data => data.firstName)
+        ...
+    });
   ```
 
-       Default validation error: DefaultMessages.Equals
+       Default validation error: DefaultMessages.NotEquals
 
 
 
@@ -317,13 +325,13 @@ This function takes 2 argument: the **value** (current evaluation value) and the
 
 
 * #### ```match(regex, message)```
-  Requires the string value to be matched with ```regex``` pattern.
+  Requires the ```regex``` pattern to match the string value.
   ```js
   var schema = builder => builder.string()
         .match(/^[0-9]+$/);
   ```
 
-    Late binding: The ```regex``` argument can be a function, so it will be calculated in every time it is accessed.
+    Late binding: The ```regex``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .equals(data => data.typeId == 1? /^[0-9]+$/ : /^[a-zA-Z]+$/);
@@ -345,17 +353,17 @@ This function takes 2 argument: the **value** (current evaluation value) and the
 
 
 * #### ```strongPassword(message)```
-  Requires the string value to be a strong password that has at least one lowercase letter, one uppercase letter, one digit, one special character, and is at least 8 characters long.
+  Requires the string value to be a strong password that has at least one lowercase letter, one uppercase letter, one digit, one special character, and is at least **8** characters long.
   ```js
   var schema = builder => builder.string()
         .strongPassword();
   ```
-       Default validation error: DefaultMessages.strongPassword
+       Default validation error: DefaultMessages.StrongPassword
 
 
 
 * #### ```mediumPassword(message)```
-  Requires the string value to be a medium password that has at least one lowercase letter, one uppercase letter, one digit, one special character, and is at least 6 characters long.
+  Requires the string value to be a medium password that has at least one lowercase letter, one uppercase letter, one digit, one special character, and is at least **6** characters long.
   ```js
   var schema = builder => builder.string()
         .mediumPassword();
@@ -367,7 +375,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
   Requires the string value to be a valid password that has at 3 and characters and not contains space and ' (single quotation)
   ```js
   var schema = builder => builder.string()
-        .strongPassword();
+        .password();
   ```
 
   This is a shortcut for ```.notContains([" ", "'"]).min(3).max(20)```.
@@ -407,7 +415,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
         .min(3);
   ```
 
-    Late binding: The ```min``` argument can be a function, so it will be calculated in every time it is accessed.
+    Late binding: The ```min``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .min(data => data.typeId == 1? 3 : 10);
@@ -422,7 +430,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
         .max(3);
   ```
 
-    Late binding: The ```max``` argument can be a function, so it will be calculated in every time it is accessed.
+    Late binding: The ```max``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .max(data => data.typeId == 1? 3 : 10);
@@ -438,7 +446,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
         .length(3);
   ```
 
-    Late binding: The ```length``` argument can be a function, so it will be calculated in every time it is accessed.
+    Late binding: The ```length``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .length(data => data.typeId == 1? 3 : 10);
@@ -486,7 +494,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
         .contains(['US', 'UK']);
   ```
 
-  Late binding: The ```values``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```values``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .contains(data => data.typeId == 1? ['US', 'UK'] : ['RUSSIA', 'CHINA']);
@@ -509,7 +517,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
         .notContains(['RUSSIA', 'CHINA']);
   ```
 
-  Late binding: The ```values``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```values``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .notContains(data => data.typeId == 1? ['US', 'UK'] : ['RUSSIA', 'CHINA']);
@@ -522,7 +530,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
   ```
 
 
-      DefaultMessages.NotContains
+      Default validation error: DefaultMessages.NotContains
 
 
 
@@ -533,7 +541,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
         .oneOf(['RUSSIA', 'CHINA']);
   ```
 
-  Late binding: The ```values``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```values``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .oneOf(data => data.typeId == 1? ['US', 'UK'] : ['RUSSIA', 'CHINA']);
@@ -556,7 +564,7 @@ This function takes 2 argument: the **value** (current evaluation value) and the
         .notOneOf(['RUSSIA', 'CHINA']);
   ```
 
-  Late binding: The ```values``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```values``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .notOneOf(data => data.typeId == 1? ['US', 'UK'] : ['RUSSIA', 'CHINA']);
@@ -606,7 +614,7 @@ This class contains folowing methods:
 
 
 * #### ```integer(message)```
-  Requires the value to be a number or null or undefined
+  Requires the value to be an *integer* or *null* or *undefined*
   ```js
   var schema = builder => builder.number()
         .integer();
@@ -621,9 +629,9 @@ This class contains folowing methods:
       .min(5);
   ```
 
-  Late binding: The ```min``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```min``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
-  var schema = builder => builder.string()
+  var schema = builder => builder.number()
         .min(data => data.typeId == 1? 5 : 10);
   ```
 
@@ -638,9 +646,9 @@ This class contains folowing methods:
       .max(15);
   ```
 
-  Late binding: The ```max``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```max``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
-  var schema = builder => builder.string()
+  var schema = builder => builder.number()
         .max(data => data.typeId == 1? 15 : 10);
   ```
 
@@ -655,9 +663,9 @@ This class contains folowing methods:
       .lessThan(15);
   ```
 
-  Late binding: The ```max``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```max``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
-  var schema = builder => builder.string()
+  var schema = builder => builder.number()
         .lessThan(data => data.typeId == 1? 15 : 10);
   ```
 
@@ -671,9 +679,9 @@ This class contains folowing methods:
       .moreThan(5);
   ```
 
-  Late binding: The ```min``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```min``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
-  var schema = builder => builder.string()
+  var schema = builder => builder.number()
         .moreThan(data => data.typeId == 1? 5 : 10);
   ```
 
@@ -682,7 +690,7 @@ This class contains folowing methods:
 
 
 * #### ```positive(message)```
-  Value must be positive.
+  Value must be positive number.
   ```js
   var schema = builder => builder.number()
       .positive();
@@ -692,7 +700,7 @@ This class contains folowing methods:
   
 
 * #### ```negative(message)```
-  Value must be negative.
+  Value must be negative number.
   ```js
   var schema = builder => builder.number()
       .negative();
@@ -776,7 +784,7 @@ This class contains folowing methods:
       .min('1400/01/01');
   ```
 
-  Late binding: The ```min``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```min``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .min(data => data.typeId == 1? '1400/01/01' : '1400/07/01');
@@ -793,7 +801,7 @@ This class contains folowing methods:
       .max('1400/01/01');
   ```
 
-  Late binding: The ```max``` argument can be a function, so it will be calculated in every time it is accessed.
+  Late binding: The ```max``` argument can be a function, so it will be calculated each time it is accessed.
   ```js
   var schema = builder => builder.string()
         .max(data => data.typeId == 1? '1400/01/01' : '1400/07/01');
@@ -908,7 +916,7 @@ var mySchemaBuilder = builder => builder
 const myValidator = BasicValidator( mySchemaBuilder,  MyValidatorMessages);
 ```
 
-```Basic-Validator``` will use Default validation error if you miss to define a message.
+```Basic-Validator``` will use default message if you miss to overwrite it.
 
 
 
@@ -927,8 +935,11 @@ const myValidator = BasicValidator( mySchemaBuilder,  MyValidatorMessages);
 ```js
 const validator = BasicValidator(b => b.string().strongPassword());
 
-console.log( validator.validate("do,p!#32Z?") )  // ? is not a strong password
-console.log( validator.validate("do,p!#32Z?") )  // null
+validator.isValid("do,p!#32Z?")   // true
+validator.isValid("123")          // false
+
+validator.validate("do,p!#32Z?")  // null
+validator.validate("do,p!#32Z?")  // ? is not a strong password
 ```
 
 
@@ -937,8 +948,7 @@ console.log( validator.validate("do,p!#32Z?") )  // null
 const validator = BasicValidator(b => b.object({
     ...
     userName: b.string().required(),
-
-    password: b.string().required(),
+    password: b.inSensitive().string().required(),
         .notContains(d => d.userName, 'password must not contains user name'),
     ...
 }));
@@ -950,7 +960,6 @@ const validator = BasicValidator(b => b.object({
 const validator = BasicValidator(b => b.object({
     ...
     password: b.string().required(),
-
     confirmPassword: b.string().required()
         .equals(d => d.password, 'must be equal to password'),
     ...
