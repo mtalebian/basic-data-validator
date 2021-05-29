@@ -43,7 +43,7 @@ npm install basic-shamsi
 Import ```BasicValidator``` class from the *Basic-Validator* package. 
 ```BasicValidator``` accepts an schema (or schema generator) as input argument and validate values.
 
-#### - Define schema
+### Define schema
 Lets start with an example:
 ```js
 import BasicValidator from 'basic-validator'
@@ -91,7 +91,7 @@ The above schema defines the following constraints:
   * a required string
   * just contains digits
 
-#### - Use in Fnal Form
+### Use in Fnal Form
 You can easily use ```myValidator.validate``` in **React-Final-Form** .
 
 ```jsx
@@ -102,7 +102,7 @@ You can easily use ```myValidator.validate``` in **React-Final-Form** .
 />
 ```
 
-#### - Use in code
+### Use in code
 
 Also you can use ```myValidator``` in your code:
 
@@ -139,7 +139,7 @@ console.log( myValidator.vaidate( DATA ) )
 console.log( myValidator.vaidateAll( DATA ) )
 ```
 
-#### - Define schema
+### Define schema
 You can define your own schema using schema builder:
  
 ```js
@@ -152,8 +152,11 @@ const myValidator = BasicValidator( mySchema );
 ...
 ```
 
-#### - Validate values
-```BasicValidator``` returns a simple object with just 2 methods:
+### Validate values
+```BasicValidator``` returns a validator object with folowing methods:
+
+* ```isValid(value)```:
+Returns ```true``` if the value matches the schema.
 
 * ```validate(value)```
 This method match the value and schema. For each schema class it will stop at first error.
