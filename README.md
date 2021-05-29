@@ -6,6 +6,8 @@ but it is not limited to ***React*** and you can use it in every javascript proj
 Basic-Validator contains some general Api to create your own **validation schema**.
 If you want more, you can easily define your ```custom``` rule. 
 
+For Persian users it fully supports Shamsi (Jalaali) date.
+
 Also you can customize all messages or overwrite your message in every rule.
 
 
