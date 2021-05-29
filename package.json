@@ -1,6 +1,6 @@
 {
   "name": "basic-data-validator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Basic schema validation JavaScript library (supports Shamsi / Jalaali date)",
   "type": "module",
   "main": "index.js",
