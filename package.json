@@ -1,0 +1,30 @@
+{
+  "name": "basic-validator",
+  "version": "1.0.0",
+  "description": "Basic schema validation JavaScript library",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "schema",
+    "validation"
+  ],
+  "author": {
+    "name": "Mahdi Talebian"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/mtalebian/basic-validator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtalebian/basic-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mtalebian/basic-validator/issues",
+    "email": "talebian73@gmail.com"
+  },
+  "dependencies": {
+    "basic-shamsi": "^1.0.4"
+  }
+}
