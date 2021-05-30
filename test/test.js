@@ -82,7 +82,7 @@ const myValidator = BasicValidator(builder => builder.object({
     }).required()
 }));
 
-const data = { userName: 'Mahdi', password: '*aA12SCSA###sd', confirmPassword: '*aA12SCSA###sd', address: { city: 'aaa', postalCode: '' } };
+const data = { userName: 'Mahdi', password: '*aA12SCSA###sd', confirmPassword: '*aA12SCSA###sd', address: { city: 'aaa', postalCode: '11' } };
 console.log("***************");
 console.log("\r\nmyValidator.isValid(data): ", myValidator.isValid(data));
 console.log("\r\nmyValidator.validate(data): ", myValidator.validate(data));
