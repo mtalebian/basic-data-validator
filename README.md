@@ -336,9 +336,7 @@ This schema class contains folowing methods:
     Late binding: The `regex` argument can be a function, so it will be calculated each time it is accessed.
 
     ```js
-    var schema = (builder) =>
-        builder
-            .string()
+    var schema = (builder) => builder.string()
             .equals((data) => (data.typeId == 1 ? /^[0-9]+$/ : /^[a-zA-Z]+$/));
     ```
 
@@ -506,12 +504,8 @@ This schema class contains folowing methods:
     Late binding: The `values` argument can be a function, so it will be calculated each time it is accessed.
 
     ```js
-    var schema = (builder) =>
-        builder
-            .string()
-            .contains((data) =>
-                data.typeId == 1 ? ["US", "UK"] : ["RUSSIA", "CHINA"]
-            );
+    var schema = (builder) => builder.string()
+        .contains((data) => data.typeId == 1 ? ["US", "UK"] : ["RUSSIA", "CHINA"]);
     ```
 
     Also the items of `values` can be a function.
@@ -534,12 +528,8 @@ This schema class contains folowing methods:
     Late binding: The `values` argument can be a function, so it will be calculated each time it is accessed.
 
     ```js
-    var schema = (builder) =>
-        builder
-            .string()
-            .notContains((data) =>
-                data.typeId == 1 ? ["US", "UK"] : ["RUSSIA", "CHINA"]
-            );
+    var schema = (builder) => builder.string()
+            .notContains((data) => data.typeId == 1 ? ["US", "UK"] : ["RUSSIA", "CHINA"]);
     ```
 
     Also the items of `values` can be a function.
@@ -562,12 +552,8 @@ This schema class contains folowing methods:
     Late binding: The `values` argument can be a function, so it will be calculated each time it is accessed.
 
     ```js
-    var schema = (builder) =>
-        builder
-            .string()
-            .oneOf((data) =>
-                data.typeId == 1 ? ["US", "UK"] : ["RUSSIA", "CHINA"]
-            );
+    var schema = (builder) => builder.string()
+            .oneOf((data) => data.typeId == 1 ? ["US", "UK"] : ["RUSSIA", "CHINA"]);
     ```
 
     Also the items of `values` can be a function.
@@ -590,12 +576,8 @@ This schema class contains folowing methods:
     Late binding: The `values` argument can be a function, so it will be calculated each time it is accessed.
 
     ```js
-    var schema = (builder) =>
-        builder
-            .string()
-            .notOneOf((data) =>
-                data.typeId == 1 ? ["US", "UK"] : ["RUSSIA", "CHINA"]
-            );
+    var schema = (builder) => builder.string()
+            .notOneOf((data) => data.typeId == 1 ? ["US", "UK"] : ["RUSSIA", "CHINA"]);
     ```
 
     Also the items of `values` can be a function.
@@ -782,9 +764,7 @@ This class contains folowing methods:
     Late binding: The `min` argument can be a function, so it will be calculated each time it is accessed.
 
     ```js
-    var schema = (builder) =>
-        builder
-            .string()
+    var schema = (builder) => builder.string()
             .min((data) => (data.typeId == 1 ? "1400/01/01" : "1400/07/01"));
     ```
 
